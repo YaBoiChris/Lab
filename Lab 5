@@ -1,0 +1,65 @@
+/*L03*/ while (true) {
+			("Please enter the length of your sequence> ");
+			scanf_s("%i", &sequenceLength);
+		if (sequenceLength >= 1 && sequenceLength <= 20) {
+		break;
+	}//if
+			printf("Length of a sequence must be in [1, 20]");
+	}//while
+
+/*L04*/ int  sequenceValue[20];
+			bool pairDifference[20];
+			int isPresentis;
+			int	nxtInt;
+			int absDiff;
+			for (int seqNdx = 0; seqNdx <= sequenceLength - 1; seqNdx++) {
+				printf("Please enter sequence value #%i> ");
+				scanf_s("%i", sequenceValue);
+				sequenceValue[seqNdx] = nxtInt;
+				pairDifference[seqNdx] = false;
+	}//for
+
+/*L05*/ if (sequenceLength == 1) {
+			printf("This sequence is Jolly.");
+			goto exit;
+	}//if
+
+/*L06*/ bool notJollyFlg = false;
+
+/*L07*/ for (int seqNdx = 0; seqNdx <= sequenceLength - 2; seqNdx++) {
+		int absDiff = abs(sequenceValue[seqNdx] - sequenceValue[seqNdx + 1]);
+			
+}//for
+
+/*L08*/ if (absDiff <= 1 || absDiff >= sequenceLength - 1) {
+				int notJollyFlg = true;
+				break;
+	}//the input sequence cannot be jolly
+
+/*L09*/	if (pairDifference[absDiff] == false) {
+			isPresentis[absDiff] = true
+			break;
+}//IF have not seen this value before
+
+/*L10*/ else {
+	notJollyFlg = true;
+	break; 
+}//ELSE this value have already been recorded
+
+/*L11*/ if (notJollyFlg) {
+	printf("This sequence is not jolly. ");
+}//IF
+	else {
+		printf("this sequence is jolly");
+}//ELSE
+
+/*L12*/	exit:
+		printf("\n");
+		endSalutatnCaaf("JollyJumper<BCD>");
+		printf("Enter any number to exit> ");
+		double anyNmbr;
+		scanf_s("%lf", &anyNmbr);
+
+}//main()
+
+//end jollyJumperBCD.c
