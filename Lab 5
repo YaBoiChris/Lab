@@ -1,3 +1,185 @@
+/** *************************************************************
+PROJECT:      JollyJumpe<BCD>
+
+FILE:		  jollyJumper<BCD>.c
+
+DESCRIPTION:   A simple programming problem where the use
+			   of an array is essential.
+
+HISTORY:
+Date      	Author          Description
+----		------			-----------
+01/24/16	Frank Ackerman  Initial lab stub
+02/02/18	Frank Ackerman	Revised for CSCI 112s18
+02/06/18	<Your name>		Lab05
+*****************************************************/
+//----------
+//C includes
+//----------
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+
+//-------------------
+//Function prototypes
+//-------------------
+void
+startSalutatnCaaf(char progNamePR[]);
+
+void
+endSalutatnCaaf(char progNamePR[]);
+
+//----
+//main
+//----
+int main(void) {
+	/* -----------------------------------------------
+	DESCRIPTION:
+	Determine whether or not any input sequence of integers
+	is "jolly" or not. See REQUIREMENTS
+
+	REQUIREMENTS:
+	R01	At the beginning and end, display a starting and ending salutation.
+
+	R02	Input is a user enter sequence of integers:
+		<sequenceLength>
+		<intIn>
+		...
+		<intIn>
+
+	R03	If sequenceLength is not in [1, 20] display error message until user enters a
+		value in[1, 20].
+
+	R4 Definition: a sequence of sequenceLength integers is called a "jolly" sequence if
+	the absolute values of the differences between each successive element in the sequence
+	takes on all possible values from 1 to sequenceLength-1. Note that any sequence of length 1
+	is a "jolly" sequence.
+
+	R05	For each input sequence that is "jolly", on a single line
+	(starting in column 1), display:
+		This sequence is Jolly.
+
+	R06	For each input sequence that is a NOT "jolly", on a single line
+	(starting in column 1), display:
+		This sequence is Not Jolly.
+
+	Sample Runs
+	-----------
+	Note: Incorpates i/o requirements not stated above:
+
+	RUN 1:
+	Please enter the length of your sequence> 0
+	Length of a sequence must be in [1, 20]
+	Please enter the length of your sequence> 21
+	Length of a sequence must be in [1, 20]
+	Please enter the length of your sequence> 1
+
+	Please enter sequence value #0> 9
+	This sequence is Jolly.
+
+	RUN 2:
+	Please enter the length of your sequence> 3
+
+	Please enter sequence value #0> 2
+	Please enter sequence value #1> 1
+	Please enter sequence value #2> 3
+	This sequence is Jolly.
+
+	RUN 3:
+	Please enter the length of your sequence> 4
+
+	Please enter sequence value #0> 1
+	Please enter sequence value #1> 4
+	Please enter sequence value #2> 2
+	Please enter sequence value #3> 3
+	This sequence is Jolly.
+
+	RUN 4:
+	Please enter the length of your sequence> 5
+
+	Please enter sequence value #0> 1
+	Please enter sequence value #1> 4
+	Please enter sequence value #2> 2
+	Please enter sequence value #2> -1
+	Please enter sequence value #2> 6
+	This sequence is Not Jolly.
+
+	DESIGN:
+	Problem Solution
+	----------------
+	- Obtain the sequence length, sequenceLength
+	- Obtain all the sequence values,sequenceValues[i]
+	- Set the boolean array, pairDifference[20] tofalse.
+	- For each successive pair of sequenceValues[],
+	  compute the absolute difference of the pair values,
+	  pairDifferenceValue, and set
+	  pairDifference[pairDifferenceValue] to true.
+	- If all  pairDifference[ndx] from ndx from 1 to
+	  sequenceLength-1 are true, the sequence is Jolly,
+	  otherwise it is Not Jolly.
+
+
+	Algorithm {
+	---------
+	A01 CALL startSalutatnCaaf("JollyJumper<BCD>");
+	A02	DECLARE sequenceLength as integer;
+	A03	WHILE (true) {
+			OBTAIN sequenceLength:
+				Please enter the length of your sequence>
+			IF (sequenceLength is in [1, 20]) {
+				Break;
+			}//IF
+			DISPLAY:
+				Length of a sequence must be in [1, 20].
+		}//WHILE
+	A04	DECLARE sequenceValue[20] as integer array;
+		DEFINE pairDifference[sequenceLength] as bool array;
+		FOR (sequenceNdx from 0 through sequenceLength-1) {
+			OBTAIN nxtInt:
+				Please enter sequence value #<sequenceNdx>>
+			SET sequenceValue[sequenceNdx] to nxtInt
+			SET pairDifference[sequenceNdx] to false;
+		}//FOR all input sequence integers
+	A05	IF (sequenceLength is 1) {
+			DISPLAY: This sequence is Jolly.
+			GOTO Exit;
+		}//IF
+	A06	SET notJollyFlg to false;
+	A07	FOR (sequenceNdx from 0 through sequenceLength-2) {
+			SET absDiff to
+			  abs(sequenceValue[sequenceNdx] - sequenceValue[sequenceNdx+1]);
+	A08		IF (absDiff is not in [1, sequenceLength-1]) {
+				SET notJollyFlg to true;
+				BREAK; //the input sequence cannot be jolly
+			}//IF the difference is out of range
+	A09		IF (pairDifference[absDiff] is false) {
+				SET isPresentis[absDiff] = true
+			}//IF have not seen this value before;
+	A10		ELSE {
+				SET notJollyFlg to true;
+				BREAK;
+			}//ELSE this value have already been recorded,
+		}//FOR each successive pair of values in sequenceValue[]
+	A11	IF (notJollyFlg) {
+			DISPLAY: This sequence is Not Jolly.
+		}//IF
+		ELSE {
+			DISPLAY: This sequence is Jolly.
+		}//ELSE
+	Exit:
+	A12	CALL endSalutatnCaaf("JollyJumper<BCD>");
+		DISPLAY: Please enter any number to exit>
+		DECLARE anyNmbr as double;
+		READ anyNmbr;
+		RETURN 0;
+	}//Algorithm
+	-------------------------------------------------*/
+
+/*L01*/	startSalutatnCaaf("JollyJumper<BCD>");
+
+/*L02*/ int sequenceLength;
+
 /*L03*/ while (true) {
 			("Please enter the length of your sequence> ");
 			scanf_s("%i", &sequenceLength);
@@ -9,11 +191,11 @@
 
 /*L04*/ int  sequenceValue[20];
 			bool pairDifference[20];
-			int isPresentis;
+			int isPresentis[20];
 			int	nxtInt;
 			int absDiff;
 			for (int seqNdx = 0; seqNdx <= sequenceLength - 1; seqNdx++) {
-				printf("Please enter sequence value #%i> ");
+				printf("Please enter sequence value #%i>", seqNdx);
 				scanf_s("%i", sequenceValue);
 				sequenceValue[seqNdx] = nxtInt;
 				pairDifference[seqNdx] = false;
@@ -27,32 +209,30 @@
 /*L06*/ bool notJollyFlg = false;
 
 /*L07*/ for (int seqNdx = 0; seqNdx <= sequenceLength - 2; seqNdx++) {
-		int absDiff = abs(sequenceValue[seqNdx] - sequenceValue[seqNdx + 1]);
-			
-}//for
+	int absDiff = abs(sequenceValue[seqNdx] - sequenceValue[seqNdx + 1]);
 
 /*L08*/ if (absDiff <= 1 || absDiff >= sequenceLength - 1) {
-				int notJollyFlg = true;
-				break;
+		int notJollyFlg = true;
+		break;
 	}//the input sequence cannot be jolly
 
 /*L09*/	if (pairDifference[absDiff] == false) {
-			isPresentis[absDiff] = true
-			break;
-}//IF have not seen this value before
+		isPresentis[absDiff] = true;
+		break;
+	}//IF have not seen this value before
 
 /*L10*/ else {
-	notJollyFlg = true;
-	break; 
-}//ELSE this value have already been recorded
+		notJollyFlg = true;
+		break;
+	}//ELSE this value have already been recorded
 
 /*L11*/ if (notJollyFlg) {
-	printf("This sequence is not jolly. ");
-}//IF
+		printf("This sequence is not jolly. ");
+	}//IF
 	else {
 		printf("this sequence is jolly");
-}//ELSE
-
+	}//ELSE	
+}
 /*L12*/	exit:
 		printf("\n");
 		endSalutatnCaaf("JollyJumper<BCD>");
