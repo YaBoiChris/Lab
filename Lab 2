@@ -1,0 +1,177 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+/**
+ * @author Chris Berzel
+ *
+ */
+/**
+ */
+public class Tour {
+	private static Node start;
+	private class Node 
+	{
+		private Point p;
+		private Node next;
+	}
+	/**
+	 * Description: creates an empty tour
+	 */
+	public Tour(){		
+		
+	}
+	/**
+	 * Description: creates a 4 point tour for testing
+	 * @param a point
+	 * @param b point
+	 * @param c point
+	 * @param d point
+	 */
+	public Tour(Point a, Point b, Point c, Point d) { 
+		Node first = new Node();
+		Node second = new Node();
+		Node third = new Node();
+		Node fourth = new Node();
+		first.p = a;
+		second.p = b;
+		third.p = c;
+		fourth.p = d;
+		first.next = second;
+		second.next = third;
+		third.next = fourth;
+		fourth.next = first;
+		start = first;
+	}
+	/**
+	 * Description: print the tour to standard output
+	 */
+	public static void show() {	
+		Node current = start;
+		do {
+			System.out.println (current.p);
+			current = current.next; 
+			} 
+		while(current != start);
+	}
+	/**
+	 * Description: draws the tour to standard
+	 */
+	public static void draw() {
+		Node current1 = start;
+		Node current2 = start.next;
+		do {
+			current1.p.drawTo(current2.p);
+			current1 = current1.next;
+			current2 = current2.next;
+		} 
+		while(current1 != start);
+	}
+	/**
+	 * Description: number of points on tour
+	 * @param count
+	 * @return count 
+	 */
+	public static int size() {	
+		int count = 0;
+		Node current = start;
+		do {
+			count++;
+			current = current.next; 
+		} 
+		while(current != start);
+		return count;
+	}
+	/**
+	 * Description: Finds the distance of a trip
+	 * @return distance
+	 */
+	public static double distance() {
+		Node current1 = start;
+		Node current2 = start.next;
+		double distance = 0.0;
+		do {
+			distance = distance + current1.p.distanceTo(current2.p);
+			current1 = current1.next; 
+			current2 = current2.next;
+		} 
+		while(current1 != start);
+		return distance;
+	}
+	/**
+	 * Description: insert p using nearest neighbor heuristic
+	 * @param p
+	 */
+	public void insertNearest(Point p) {
+		if(p == null) {
+			return;
+		}
+		if(start == null) {
+			Node beg = new Node();
+			beg.p = p;
+			beg.next = beg; 
+			start = beg;
+			return;
+		}
+		Node current = start;
+		Node currentSmallestNode = null;
+		double small = Double.POSITIVE_INFINITY;
+
+		do {
+		double newDist = current.p.distanceTo(p);
+		if(newDist < small) {
+			small = newDist;
+			currentSmallestNode = current;
+		}
+		} 
+		while(current != start);
+		Node smallest = new Node();
+		smallest.p = p;
+		smallest.next = currentSmallestNode.next;
+		currentSmallestNode.next = smallest;
+	}
+	/**
+	 * Description: insert p using smallest increase heuristic
+	 * @param p
+	 */
+	public void insertSmallest(Point p) {
+		if(p == null) {
+			return;
+		}
+		if(start == null) {
+			Node beg = new Node();
+			beg.p = p;
+			beg.next = beg; 
+			start = beg;
+			return;
+		}
+		Node current = start;
+		Node currentSmallestNode = null;
+		double small = Double.POSITIVE_INFINITY;
+		double dresult;
+		do {
+			double d0 = current.p.distanceTo(current.next.p);
+			double d1 = current.p.distanceTo(p);
+			double d2 = current.next.p.distanceTo(p);
+			dresult = (d1 + d2) - d0;
+		}while(current != start);
+		Node smallest = new Node();
+		smallest.p = p;
+		smallest.next = currentSmallestNode.next;
+		currentSmallestNode.next = smallest;
+		
+	}
+	/** Description: main method for testing
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Point a = new Point(.75, .75); 
+		Point b = new Point(.75, .25);
+		Point c = new Point(.25, .25); 
+		Point d = new Point(.25, .75); 
+		Tour tour1 = new Tour(a,b,c,d);
+		Tour.show();
+		Tour.draw();
+		double distance = Tour.distance();
+		System.out.println(distance);
+	}
+}
