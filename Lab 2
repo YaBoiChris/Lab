@@ -57,14 +57,12 @@ public class Tour {
 	 * Description: draws the tour to standard
 	 */
 	public static void draw() {
-		Node current1 = start;
-		Node current2 = start.next;
+		Node current = start;
 		do {
-			current1.p.drawTo(current2.p);
-			current1 = current1.next;
-			current2 = current2.next;
+			current.p.drawTo(current.next.p);
+			current = current.next;
 		} 
-		while(current1 != start);
+		while(current != start);
 	}
 	/**
 	 * Description: number of points on tour
@@ -122,6 +120,7 @@ public class Tour {
 			small = newDist;
 			currentSmallestNode = current;
 		}
+		current = current.next;
 		} 
 		while(current != start);
 		Node smallest = new Node();
@@ -134,10 +133,10 @@ public class Tour {
 	 * @param p
 	 */
 	public void insertSmallest(Point p) {
-		if(p == null) {
+		if(p == null) { // if no p value in file
 			return;
 		}
-		if(start == null) {
+		if(start == null) { // checks if there is no start node
 			Node beg = new Node();
 			beg.p = p;
 			beg.next = beg; 
@@ -153,6 +152,11 @@ public class Tour {
 			double d1 = current.p.distanceTo(p);
 			double d2 = current.next.p.distanceTo(p);
 			dresult = (d1 + d2) - d0;
+			if(dresult < small) {
+				small = dresult;
+				currentSmallestNode = current;
+			}
+			current = current.next;
 		}while(current != start);
 		Node smallest = new Node();
 		smallest.p = p;
