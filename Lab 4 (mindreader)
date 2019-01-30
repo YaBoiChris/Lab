@@ -1,0 +1,33 @@
+import java.util.HashMap;
+import java.util.Scanner;
+public class MindReader {
+	public static String ComputerGuess(String compGuess) { // Random computer Guess, H or T
+		if (Math.random() < 0.5) {
+			compGuess = "H";
+		}        
+		else {
+			compGuess = "T";
+		}
+		return compGuess;
+	}
+	
+	public static void main(String[] args) {
+		
+		System.out.println("Enter H for heads or T for tails: ");
+		Scanner sc = new Scanner(System.in);
+		String userGuess = sc.nextLine();
+		
+		System.out.println("Computer predicted: " + ComputerGuess(null));
+		System.out.print("Player Chose: " + userGuess);
+
+		int [] intArray = new int[2];
+		
+		HashMap<String, int[]> map = new HashMap<String, int[]>();
+		
+		
+		
+		 
+
+	}
+
+}
