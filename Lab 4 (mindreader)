@@ -1,33 +1,94 @@
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.ArrayList;
 public class MindReader {
-	public static String ComputerGuess(String compGuess) { // Random computer Guess, H or T
+	public static String ComputerGuess() {
+		String compGuess = "";
 		if (Math.random() < 0.5) {
 			compGuess = "H";
 		}        
 		else {
 			compGuess = "T";
-		}
+		}	
 		return compGuess;
 	}
-	
+/**
+ * Description: Contains hashmap and scoring and logic for computer guesses.
+ * @param args
+ */
 	public static void main(String[] args) {
-		
-		System.out.println("Enter H for heads or T for tails: ");
-		Scanner sc = new Scanner(System.in);
-		String userGuess = sc.nextLine();
-		
-		System.out.println("Computer predicted: " + ComputerGuess(null));
-		System.out.print("Player Chose: " + userGuess);
-
-		int [] intArray = new int[2];
-		
+		String guess = "";
+		int count = 0;
+		boolean inGame = true;
+		ArrayList<String> arrList = new ArrayList<String>();
 		HashMap<String, int[]> map = new HashMap<String, int[]>();
-		
-		
-		
-		 
+		int compGuessScore = 0;
+		int userGuessScore = 0;
+		String userGuess = "";
+		Scanner sc = new Scanner(System.in);
+		while(inGame) {
+			do {
+				System.out.println("Enter H for heads or T for tails: ");
+				userGuess = sc.next().toUpperCase();
+			} while(!userGuess.equals("H") && !userGuess.equals("T"));
+			
+			int [] intArray = new int[2];
+			arrList.add(userGuess);
+			if(arrList.size() < 5) {
+				guess = ComputerGuess();
+			}
+			else {
+				String strKey = "";
+				for(int i = arrList.size() - 5; i < arrList.size() - 1; ++i ) {
+					strKey += arrList.get(i) + " ";
+				}
+				if(map.containsKey(strKey)) {
+					intArray = map.get(strKey);
+					if(intArray[0] > intArray[1]) {
+						guess = "H";
+					}
+					else if(intArray[0] == intArray[1]) {
+						guess = ComputerGuess();
+					}
+					else {
+						guess = "T";
+					}
+					if(userGuess.equals("H")) {
+						intArray[0]++;
+					}
+					else {
+						intArray[1]++;
+					}
+					map.replace(strKey, intArray);
+				}
+				else {
+					guess = ComputerGuess();
+					if(userGuess.equals("H")) {
+						map.put(strKey, new int[] {1,0});
+					}
+					else {
+						map.put(strKey, new int[] {0,1});
+					}
+				}
+			}
+			System.out.println("Computer predicted: " + guess);
+			System.out.println("Player Chose: " + userGuess);
 
+			if(guess.equals(userGuess)) {
+				++compGuessScore;
+			}
+			else {
+				++userGuessScore;
+			}
+			if(userGuessScore == 25) {
+				System.out.println("Player WINS!!!");
+				inGame = false;
+			}
+			else if(compGuessScore == 25) {
+				System.out.println("COMPUTER WINS!!!");
+				inGame = false;
+			}
+			System.out.println("Computer: " + compGuessScore + " " + "Player: " + userGuessScore);
+		}
 	}
-
 }
