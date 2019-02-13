@@ -1,0 +1,71 @@
+/**
+ * 
+ * @author
+ *
+ */
+
+// This is needed if you want to change the text font using 
+import java.awt.Font;
+import java.io.scan;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class StayingAlive
+{
+    public static void main(String[] args)
+    {
+        int score;
+        String FileName = args[0];
+        try {
+        	Scanner scan = new Scanner(new scan(FileName));
+        	String background = scan.next();
+        	Player player1 = new Player(scan.next(), scan.nextDouble(), scan.nextDouble(), scan.nextDouble(), scan.nextInt());
+        	System.out.println("PLAYER: " + player1);
+        	int numEnemies = scan.nextInt();
+        	Enemy enemy[] = new Enemy[numEnemies];
+        	for(int i = 0; i < numEnemies; i++) {
+        		enemy[i] = new Enemy(scan.next(), scan.nextDouble(), scan.nextDouble(), scan.nextDouble(),scan.nextDouble(),scan.nextDouble());
+        		System.out.println("Enemy " + i + ": " + enemy[i]);
+        	}
+        	scan.close();
+        	StdDraw.setFont(new Font("SansSerif", Font.BOLD, 18));
+        	StdDraw.setPenColor(StdDraw.RED);
+        	boolean alive, start;
+        	alive = true;
+        	start = true;
+        	while(alive) {
+        		StdDraw.picture(0.5, 0.5, background);
+        		Player.draw();
+        		for(int i = 0; i < enemy.length; ++i) {
+        			enemy[i].draw();
+        		}
+        		for(int i = 0; i < enemy.length; ++i) {
+        			if(Player.intersects(enemy[i])) {
+        				alive = false;
+        			}
+        			else {
+        				enemy[i].updatePos(enemy[i].getX(), enemy[i].getY());
+        			}
+        			if(alive) {
+        				++score;
+        				StdDraw.textLeft(0.0, 1.0, "Score: " + score);
+        			}
+        			double mouseX = StdDraw.mouseX();
+        			double mouseY = StdDraw.mouseY();
+        			Player.updatePos(mouseX, mouseY);
+        		}
+        		if(start) {
+        			StdDraw.show(1000);
+        			start = false;
+        		}
+        		else {
+        			StdDraw.show(10);
+        		}
+        	}
+        }
+        catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        }
+    }
+
+}
